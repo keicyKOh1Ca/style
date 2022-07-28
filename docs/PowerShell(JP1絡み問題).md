@@ -47,7 +47,7 @@
 <br>
 　設定例：*$env:PSModulePath="c:\Program Files\WindowsPowerShell\Modules;～"*<br>
 <br>
-*　何故？*
+・・・・何故？
 <br>
 ## ２．原因
 
@@ -67,3 +67,4 @@
 [[http://itdoc.hitachi.co.jp/manuals/3021/30213B1310/AJSH0171.HTM]]
 
 今回設定した内容は添付の通り
+![jp1_setting](https://user-images.githubusercontent.com/74536272/181411006-9785dfd5-070a-410b-b479-0e71156e21f4.png)

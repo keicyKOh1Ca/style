@@ -66,5 +66,5 @@
 ・9.5.1　WOW64環境でx86対応のJP1/AJS3を使用する場合の注意事項
 [[http://itdoc.hitachi.co.jp/manuals/3021/30213B1310/AJSH0171.HTM]]
 
-今回設定した内容は添付の通り
+今回設定した内容は右の通り
 ![jp1_setting](https://user-images.githubusercontent.com/74536272/181411006-9785dfd5-070a-410b-b479-0e71156e21f4.png)

@@ -1,4 +1,4 @@
-# Oracle DB 21c XE インストール＆DB構築手順
+# Oracle DB 19c インストール＆DB構築手順
 
 <pre>
 基本は以下、URLのマニュアル参考としているが一部異なる部分もあるので、それを記載
@@ -168,47 +168,102 @@ oracleDBのプログラム内にperlで実行するものがあるので、プ�
 |1|___mkdir /home/oracle/install/___||
 |2|___ls -ltr  /home/oracle/___||
 |3|___cp -p  ${ORACLE_HOME}/install/response/db_install.rsp /home/oracle/install/db_install.rsp___||
-|4|___vi /home/oracle/install/db_install.rsp※1___||
+|4|___vi /home/oracle/install/db_install.rsp※1___|[db_install.rsp](https://github.com/keicyKOh1Ca/style/blob/master/oracle/db_install.rsp)|
+|5|___export CV_ASSUME_DISTID=OL7___|[3.8 Oracle Linux 8およびRed Hat Enterprise Linux 8に関する既知の問題および不具合](https://docs.oracle.com/cd/F19136_01/rnrdm/linux-platform-issues.html#GUID-254C296D-F61D-49FC-827C-0F5CB8528C56)|
+|6|___${ORACLE_HOME}/runInstaller -silent -responseFile /home/oracle/install/db_install.rsp___||
 
-[Google先生](https://www.google.co.jp/)
 <pre>
-※1以下レスポンスファイルサンプル
-
-</pre>
-
----
-### 6. 環境変数設定
-|#|command|
-|:--:|:--|
-|1|___export ORACLE_SID=XE___|
-|2|___export ORAENV_ASK=NO___|
-|3|___. /opt/oracle/product/21c/dbhomeXE/bin/oraenv___|
----
-### 7. DB構築
-|#|command|
-|:--:|:--|
-|1|___/etc/init.d/oracle-xe-21c configure___|
-<pre>
-※最低大文字英字１つ、小文字英字１つ、数字１つからなるsys,system等のパスワードを入力を求められるので
-　控えておく。
- また「データベースの作成が完了しました。～」のメッセージが出力されたらOK
+<b>!!!インストール時に一部オプションでの警告が発生するが、正常にインストールはされる。</b>
 </pre>
 ---
-### 8.接続確認
-・oracleユーザにスイッチし、「. /opt/oracle/product/21c/dbhomeXE/bin/oraenv」を実行後、
-　SYSDBAとしてsqlplusにて接続(OS認証)し、接続出来ればOK
- |#|command|
- |:--:|:--|
- |1|___sqlplus / as sysdba___|
+### 9. インストール後、スクリプト実行
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___su - root___|rootへスイッチ|
+|2|___/u01/app/oraInventory/orainstRoot.sh___||
+|3|___/u01/app/oracle/product/19.0.0/ITVDB_HOME/root.sh___||
 ---
-### 9.まとめ
-・今回は21cなので、当然プラガブルDB（以下PDB）構成となっており、ここまので工程を完了したら既に、PDBは
-　存在する。
-  ただし、PDB上にスキーマを作成する必要もあるので、忘れずに。
-  
-・XEのPDBの上限は3つ迄、かつ最大ストレージ容量は12Gの2CPUまでとなる。
+### 10. DB構築事前準備
+・初期化パラメータファイル作成
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___${ORACLE_HOME}/dbs/init.ora ./initDB.ora___|任意の場所でもOK|
+<pre>
+※initDB.oraサンプル
+db_name='CDB01'
+memory_target=4G　　　#<=ここはデフォルト1Gになっているが、それだと少なすぎとエラーになるため、上げる。
+processes = 150
+audit_file_dest='$ORACLE_BASE/admin/CDB01/adump'   #<=DIR作成を先に実施しておく
+audit_trail ='db'
+db_block_size=8192
+db_domain=''
+db_recovery_file_dest='$ORACLE_BASE/fast_recovery_area'　　#<=DIR作成を先に実施しておく
+db_recovery_file_dest_size=2G
+diagnostic_dest='$ORACLE_BASE'
+dispatchers='(PROTOCOL=TCP) (SERVICE=ORCLXDB)'
+open_cursors=300
+remote_login_passwordfile='EXCLUSIVE'
+undo_tablespace='UNDOTBS1'
+# You may want to ensure that control files are created on separate physical
+# devices
+#control_files = (ora_control1, ora_control2)
+#↓制御ファイルのパスを指定しておき、更にDIRは作成しておくこと（今回は3つ定義している。）
+control_files = ('任意の場所/control01.ctl', '任意の場所/control02.ctl', '任意の場所/control03.ctl')
+compatible ='19.0.0'　　　　　　　　　#<=デフォルト(11.0.2）のままにしておくと、未対応エラーとなるため、該当の19.0.0に設定しておく。
+enable_pluggable_database=true　　　#<=レスポンスファイルでマルチテナント構成を指定しているのに、このパラメータを指定しないと、CDB作成時にエラーとなるので設定
+</pre>
 
-・もちろんPDBなのでリスナー接続が必須のため、tnsnamesの設定もお忘れなく。
+・tnsnamas.oraの指定
+<pre>
+# CDB用
+CDB01 =
+    (DESCRIPTION =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 【ホスト名かIPアドレス指定】)(PORT = 1521))
+        (CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = CDB01))
+    )
+# PDB用
+PDB01 =
+    (DESCRIPTION =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 【ホスト名かIPアドレス指定】)(PORT = 1521))
+        (CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = PDB01))
+    )
+</pre>
+
+・dbディレクトリ作成
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___mkdir /u01/app/oracle/product/oradata/CDB01/___||
+|2|___mkdir /u01/app/oracle/product/oradata/CDB01/pdbseed___||
+|3|___mkdir /u01/app/oracle/product/oradata/CDB01/pdbseed/datafile___||
+
+・spfile作成
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___sqlplus / as sysdba___|OS認証接続|
+|2|___CREATE SPFILE FROM PFILE = '/u01/app/oracle/product/19.0.0/DB_HOME/dbs/initDB.ora';___|spfile作成|
+|3|___!ls -ltr ${ORACLE_HOME}/dbs___|spfile確認|
+---
+### 11. CDB作成
+
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___startup nomount___|インスタンス起動|
+|2|___mount -t tmpfs shmfs -o size=10g /dev/shm___|-- 上記１でエラー（ORA-00845: MEMORY_TARGET not supported on this system）が発生した場合、以下コマンド実施|
+|3|___create database cdb___|[createCDB.sql](https://github.com/keicyKOh1Ca/style/blob/master/oracle/createCDB.sql)|
+|4|___@$ORACLE_HOME/rdbms/admin/catcdb.sql___|CDBセットアップスクリプト実行※1|
+|5|___ALTER SYSTEM SET log_archive_format='%T_%S_%r.dbf' scope=BOTH;___| log_archive_format設定（アーカイブログモードにしたい場合のみ）|
+|4|___ALTER DATABASE ARCHIVELOG;___|アーカイブモード変更（mount状態で実施）（アーカイブログモードにしたい場合のみ）|
+
+<pre>
+※1スクリプト実行時以下のインプットを求められるので、入力
+SQL> host perl -I &&rdbms_admin &&rdbms_admin_catcdb --logDirectory &&1 --logFilename &&2
+1に値を入力してください: 任意のログ出力先ディレクトリ
+2に値を入力してください: 任意のログファイル名
+Enter new password for SYS: レスポンスファイル時に設定したSYSのパスワード
+Enter new password for SYSTEM: レスポンスファイル時に設定したSYSTEMのパスワード
+Enter temporary tablespace name: 一時表領域名（ここではTEMPを指定）
+</pre>
+
 
 
 

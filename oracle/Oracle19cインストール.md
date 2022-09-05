@@ -181,7 +181,7 @@ oracleDBのプログラム内にperlで実行するものがあるので、プ�
 |:--:|:--|:--|
 |1|___su - root___|rootへスイッチ|
 |2|___/u01/app/oraInventory/orainstRoot.sh___||
-|3|___/u01/app/oracle/product/19.0.0/ITVDB_HOME/root.sh___||
+|3|___/u01/app/oracle/product/19.0.0/DB_HOME/root.sh___||
 ---
 ### 10. DB構築事前準備
 ・初期化パラメータファイル作成

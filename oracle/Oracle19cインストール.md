@@ -2,7 +2,7 @@
 
 <pre>
 基本は以下、URLのマニュアル参考としているが一部異なる部分もあるので、それを記載
-[https://docs.oracle.com/en/database/oracle/oracle-database/21/xeinl/installing-oracle-database-xe.html#GUID-728E4F0A-DBD1-43B1-9837-C6A460432733](https://docs.oracle.com/cd/F19136_01/ladbi/creating-an-oracle-software-owner-user.html#GUID-C1E5CEA8-741A-4500-B03E-B4A6BC1E87BB)
+[データベース・インストレーション・ガイドfor Linux](https://docs.oracle.com/cd/F19136_01/ladbi/creating-an-oracle-software-owner-user.html#GUID-C1E5CEA8-741A-4500-B03E-B4A6BC1E87BB)
 </pre>
 
 ---

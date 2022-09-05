@@ -249,7 +249,7 @@ PDB01 =
 |:--:|:--|:--|
 |1|___startup nomount___|インスタンス起動|
 |2|___mount -t tmpfs shmfs -o size=10g /dev/shm___|-- 上記１でエラー（ORA-00845: MEMORY_TARGET not supported on this system）が発生した場合、以下コマンド実施|
-|3|___create database cdb___|[createCDB.sql](https://github.com/keicyKOh1Ca/style/blob/master/oracle/createCDB.sql)|
+|3|___create database実行___|[createCDB.sql](https://github.com/keicyKOh1Ca/style/blob/master/oracle/createCDB.sql)|
 |4|___@$ORACLE_HOME/rdbms/admin/catcdb.sql___|CDBセットアップスクリプト実行※1|
 |5|___ALTER SYSTEM SET log_archive_format='%T_%S_%r.dbf' scope=BOTH;___| log_archive_format設定（アーカイブログモードにしたい場合のみ）|
 |4|___ALTER DATABASE ARCHIVELOG;___|アーカイブモード変更（mount状態で実施）（アーカイブログモードにしたい場合のみ）|
@@ -263,8 +263,37 @@ Enter new password for SYS: レスポンスファイル時に設定したSYSの�
 Enter new password for SYSTEM: レスポンスファイル時に設定したSYSTEMのパスワード
 Enter temporary tablespace name: 一時表領域名（ここではTEMPを指定）
 </pre>
+---
+### 12. PDB作成
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___sqlplus / as sysdba___|sqlplusを抜けている場合|
+|2|___!mkdir /u01/app/oracle/product/oradata/PDBS___||
+|3|___startup___|※oracleがオープンしていない場合|
+|4|___create pluggable database PDB01 admin user 任意のユーザ名 identified by 任意のパスワード file_name_convert = ('/u01/app/oracle/product/oradata/CDB01/pdbseed/', '/u01/app/oracle/product/oradata/PDBS/');___|※seedを利用し作成|
+|5|___alter session set container = PDB01___|pdbへ切り替え|
+|6|___show con_name___|'PDB01'が表示されればOK|
+---
+### 13. リスナーからのPDB接続
 
+|#|command|explanation|
+|:--:|:--|:--|
+|1|___lsnrctl status___|リスナーの状態確認|
+|2|___lsnrctl start___|リスナーが立ち上がっていない場合、起動|
+|3|___sqlplus PDB時に設定したユーザ/PDB時に設定したパスワード@PDB01___|PDBへ接続（※SIDは上記10でtnsnamesに設定したもの）|
 
+<pre>
+!!!接続されればOK
+</pre>
 
+### 14. まとめ
 
+<pre>
+・21cのXEインストールとは、結構色々設定する必要があるが、configureにてPDBを作成することも可能なので
+　そちらもでOK
+・preInstallは必須、preInstallをやらないとカーネルパラメータやら、依存パッケージのインストールやら
+　手動でやらないといけないので。
+・XEと違い、通常のSE2を今回インストールしたので、少し制限は緩和されるがSE2の場合
+　PDBの上限が3つ迄となる。(19cは。21cだとどうなのか？）
+</pre>
 

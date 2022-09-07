@@ -131,6 +131,9 @@ passwd: すべての認証トークンが正しく更新できました。
 
 ※2：マニュアルのURLは「appstream」の部分がRedhat7のURLの「latest」となっているため、DLエラーとなっていた。記載されているURLが間違っている。
 ※3：dnfはLinux8から用意されたyumの後継コマンド
+
+またインストール時に「compat-libcap1-1.10パッケージの欠落エラーが発生」するが、無視可能のよう。
+[3 Oracle Database 19cのLinuxに影響する問題](https://docs.oracle.com/cd/F19136_01/rnrdm/linux-platform-issues.html#GUID-2F31EF36-D154-470A-A3B7-9631DF245BAD)
 </pre>
 ---
 ### 7. perlのインストール
@@ -153,6 +156,15 @@ oracleDBのプログラム内にperlで実行するものがあるので、プ�
 |5|___swapon -s ( or cat /proc/swaps)___|スワップ領域が適用されているか|
 <pre>
 ※1：マウント先をスワップ領域としてもOKだが、今回は容量の関係上ファイルを作成
+また、スワップ・サイズに対する要件もあるので、注意すること。（インストール時、警告が発生する。）
+
+[Oracle Database Clientのサーバー構成チェックリスト](https://docs.oracle.com/cd/F19136_01/lacli/server-configuration-checklist-for-oracle-database-client.html#GUID-CE906345-5274-4E57-B6B9-0840A9D7226E)
+【RAMに対してのスワップ領域の割当て】
+256MB               ：RAMのサイズの3倍
+256MBから512MBまで   ：RAMのサイズの2倍
+512MBから2GBまで     ：RAMのサイズの1.5倍
+2GBから16GBまで　    ：RAMのサイズと同じ
+16GB超　            ：16GB
 </pre>
 
 ・Oracleインストール

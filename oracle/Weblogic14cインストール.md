@@ -145,4 +145,4 @@ inst_group = oinstall
 ---
 ### 4. 管理サーバ＆管理対象サーバ構築
 長くなったので別ファイルで。
-[Weblogicサーバ構築へ](https://github.com/keicyKOh1Ca/style/new/master/oracle/Weblogicサーバ構築.md)
+[Weblogicサーバ構築へ](https://github.com/keicyKOh1Ca/style/new/master/oracle/Weblogicサーバ構築.md "構築へ")

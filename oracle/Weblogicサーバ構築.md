@@ -113,7 +113,7 @@ https://docs.oracle.com/cd/F25597_01/document/products/E13153_01/wlcp/wlss40/con
 ---
 ### 4. 管理対象サーバ起動＋停止＆ユーザ登録
 
-[管理対象サーバ作成](https://github.com/keicyKOh1Ca/style/tree/master/oracle/Weblogic管理対象サーバ作成.png)
+[管理対象サーバ作成](https://github.com/keicyKOh1Ca/style/tree/master/oracle/Weblogic管理対象サーバ作成.pdf)
 
 |#|command|explanation|
 |:--:|:--|:--|
@@ -131,7 +131,7 @@ https://docs.oracle.com/cd/F25597_01/document/products/E13153_01/wlcp/wlss40/con
 ---
 ### 5. JNDI設定
 
-[JNDI作成](https://github.com/keicyKOh1Ca/style/tree/master/oracle/JNDI作成.md)
+[JNDI作成](https://github.com/keicyKOh1Ca/style/tree/master/oracle/JNDI作成.pdf)
 
 ---
 ### 6. まとめ

@@ -107,6 +107,7 @@ https://docs.oracle.com/cd/F25597_01/document/products/E13153_01/wlcp/wlss40/con
 
 ・ユーザ作成※デフォルトユーザが嫌な場合
 > [weblogicユーザ作成](https://docs.oracle.com/cd/E57761_01/gg-monitor/GMINS/user_man.htm)
+<br>
 > [デフォルトユーザ不要の場合](https://docs.oracle.com/cd/F32751_01/weblogic-server/14.1.1.0/wlach/taskhelp/security/DeleteUsers.html)
 
 ---

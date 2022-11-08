@@ -25,11 +25,11 @@ public class LoginCheckInterceptor implements Serializable
 	{
 		ProjectStage myStage = FacesContext.getCurrentInstance().getApplication().getProjectStage();
 		// web.xmlにて設定したパラメータ
-    // <context-param>
+   		// <context-param>
 		// <param-name>javax.faces.PROJECT_STAGE</param-name>
 		// <param-value>Production</param-value>
-	  // </context-param>
-    // ↑本番モードの場合にチェック↓
+	  	// </context-param>
+    		// ↑本番モードの場合にチェック↓
 		if(myStage.equals(ProjectStage.Production)){
 			//ログイン情報がなければエラーページへ
 			if (loginInfo.getId() == null)

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * バッキングビーン
  * このクラスの処理でログインがされているかのチェックを行っている。
  */
-@LoginChecker
+@LoginCheck
 @Named
 @RequestScoped
 public class UserBackingBean

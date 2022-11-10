@@ -130,7 +130,7 @@ javaにてプロパティファイルを読み込む際に、「ResourceBundle�
 
 faces-config.xmlの内容が書き変わってしまっていたことにより、そいつも読み込もうとしていた。
 以下内容
-<pre>
+~~~xml
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
@@ -158,6 +158,6 @@ faces-config.xmlの内容が書き変わってしまっていたことにより�
 		</resource-bundle>
 	</application>
 </faces-config>
-</pre>
+~~~
 
 ソースじゃなくて設定ファイルもちゃんと確認しよう。。。

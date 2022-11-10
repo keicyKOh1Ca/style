@@ -105,3 +105,59 @@ docにも記載されてなくて、レンダリング後のページのソー�
 ~~~
 
 jsfに記載し、バッキングビーンのメソッドを呼び出すイメージ
+
+### ４．Propertyファイルの読み込み
+
+javaにてプロパティファイルを読み込む際に、「ResourceBundle」クラスや「Properties」クラスを利用するが
+その際に少しハマったことを記載しておく。
+
+あるプロジェクトで、バリデーションエラー時ではプロパティから「ResourceBundle」クラスにてプロパティファイルを
+読み込んでいるのだがある時、急にバリデーションでシステムエラーとなった。
+
+エラーの内容は以下の通り
+<pre>
+1:java.util.MissingResourceException: Can't find bundle for base name resources.application, locale ja_JP
+2: at java.util.ResourceBundle.throwMissingResourceException(Unknown Source)
+3: at java.util.ResourceBundle.getBundleImpl(Unknown Source)
+4: at java.util.ResourceBundle.getBundle(Unknown Source)
+・・・・
+</pre>
+
+「内容からapplicationプロパティがないよ」のエラーとは分かるのだが、そもそもapplicationプロパティ
+なんて設定していないのになぜ？？
+
+#### 原因
+
+faces-config.xmlの内容が書き変わってしまっていたことにより、そいつも読み込もうとしていた。
+以下内容
+<pre>
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd"
+	version="2.3">
+
+	<application>
+		<message-bundle>ValidationMessages</message-bundle>
+		<!-- ↓この記述を追加したことにより、「resources.application」を
+				読み込もうとしてファイルがないエラーとなっていた -->
+		<message-bundle>resources.application</message-bundle>
+		<locale-config>
+			<default-locale>ja</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<base-name>sample.util.SampAResourceBundleUtil</base-name>
+			<var>SampA</var>
+		</resource-bundle>
+		
+		<resource-bundle>
+			<base-name>sample.util.SampBResourceBundleUtil</base-name>
+			<var>SampB</var>
+		</resource-bundle>
+	</application>
+</faces-config>
+</pre>
+
+ソースじゃなくて設定ファイルもちゃんと確認しよう。。。

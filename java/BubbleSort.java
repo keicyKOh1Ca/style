@@ -21,19 +21,21 @@ public class Sorter
 
 		println(nums);
 		System.out.println("---------- start:" + new Date());
-		for (int i = 0; i < nums.length; i++)
+		int i = nums.length - 1;
+		while (i > 0)
 		{
 			System.out.println(i + "回目");
-			for (int j = nums.length - 1; j > i; j--)
+			for (int j = 0; j < i; j++)
 			{
-				if (nums[i] >= nums[j])
+				if (nums[j] >= nums[j + 1])
 				{
-					tmp_num = nums[i];
-					nums[i] = nums[j];
-					nums[j] = tmp_num;
+					tmp_num = nums[j];
+					nums[j] = nums[j + 1];
+					nums[j + 1] = tmp_num;
 				}
 				println(nums);
 			}
+			i--;
 		}
 		System.out.println("-----------------------------------------");
 		println(nums);

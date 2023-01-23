@@ -7,4 +7,4 @@
 ※CSRF（Cross-Site Request Forgeries）対策としても取り扱っている。
 
 なので、jmeterで記録したシナリオについて変更と、「httpクッキーマネージャ」を設定する。
-※httpクッキーはおそらくjsfのライフサイクル上でCookie情報を利用する為？
+※httpクッキーはおそらくjsfのライフサイクル上でCookie情報を利用する為か？

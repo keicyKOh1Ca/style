@@ -201,5 +201,4 @@ public class Inserter
  　その為、非XAドライバを選択をする場合は、「グローバル・トランザクションのサポート」を有効化
   　もしくはXAドライバを素直に利用することをお勧めする。
    
-[Oracle WebLogic Server JDBCデータ・ソースの管理](https://docs.oracle.com/cd/F32751_01/weblogic-server/14.1.1.0/wlsig/installing-oracle-weblogic-server-and-coherence-software.html#GUID-E4241C14-42D3-4053-8F83-C748E059607A)
-
+[Oracle WebLogic Server JDBCデータ・ソースの管理](https://docs.oracle.com/cd/F32751_01/weblogic-server/14.1.1.0/jdbca/transactions.html#GUID-959E1895-6619-4855-87EF-63F7E7F3E034)

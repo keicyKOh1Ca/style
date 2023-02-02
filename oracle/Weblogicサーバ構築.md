@@ -55,6 +55,10 @@ closeTemplate()
 # 終了
 exit()
 
+※注意！：上記テンプレートをそのまま貼り付け実行すると以下エラーが発生するので、日本語部分は取り除くこと。
+  File "<string>", line None
+SyntaxError: Non-ASCII character in file '/u01/app/weblogic/WLS-install/domainTmp.py', but no encoding declared; see http://www.python.org/peps/pep-0263.html for details
+
 ※2
 起動したいユーザを、例えば別のユーザ（アプリユーザとか）にしたい場合の設定
 </pre>
